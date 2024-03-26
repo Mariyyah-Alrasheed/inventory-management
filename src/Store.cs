@@ -77,6 +77,7 @@ namespace sda_onsite_2_inventory_management.src
             var orderByResult = from item in _items
                                 orderby item.GetName()
                                 select item.GetName();
+
             foreach (var item in orderByResult)
             {
                 Console.WriteLine(item);
