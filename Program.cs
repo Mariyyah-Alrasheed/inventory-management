@@ -10,7 +10,7 @@ internal class Program
     private static void Main(string[] args)
     {
 
-        var banana = new Item("bananae", -10, new DateTime(2023, 1, 1));
+        //  var banana = new Item("bananae", -10, new DateTime(2023, 1, 1));
         var waterBottle = new Item("Water Bottle", 10, new DateTime(2023, 1, 1));
         var pen = new Item("Pen", 20, new DateTime(2023, 4, 1));
         var tissuePack = new Item("Tissue Pack", 30, new DateTime(2023, 5, 1));
@@ -19,14 +19,19 @@ internal class Program
         var soap = new Item("Soap", 12, new DateTime(2023, 8, 1));
         var shampoo = new Item("Shampoo", 40, new DateTime(2023, 9, 1));
         var toothbrush = new Item("Toothbrush", 50, new DateTime(2023, 10, 1));
-        // var coffee = new Item("Coffee", 20);
-        // var sandwich = new Item("Sandwich", 15);
-        // var batteries = new Item("Batteries", 10);
-        // var umbrella = new Item("Umbrella", 5);
-        // var sunscreen = new Item("Sunscreen", 8);
+        var toothbrush2 = new Item("Toothbrush2", 50, new DateTime(2023, 10, 1));
 
-        var store = new Store();
-        store.AddItem(banana);
+        var coffee = new Item("Coffee", 20);
+        var sandwich = new Item("Sandwich", 15);
+        var batteries = new Item("Batteries", 10);
+        var umbrella = new Item("Umbrella", 5);
+        var sunscreen = new Item("Sunscreen", 8);
+
+        Console.WriteLine($"===={coffee.GetDate()}");
+
+
+        var store = new Store(200);
+        //  store.AddItem(banana);
         store.AddItem(waterBottle);
         store.AddItem(toothbrush);
         store.AddItem(shampoo);
@@ -35,6 +40,11 @@ internal class Program
         store.AddItem(chipsBag);
         store.AddItem(tissuePack);
         store.AddItem(pen);
+
+        store.AddItem(toothbrush2);
+
+
+        Console.WriteLine($" The total Amount: {store.GetCurrentVolume()}");
 
 
         // store.DeletItem(waterBottle2);
@@ -45,9 +55,19 @@ internal class Program
 
 
 
+        Console.WriteLine("===============DESC==============");
+        var sortedByDesc = store.SortByDate(SortOrder.DECS);
+        sortedByDesc.ForEach(item => Console.WriteLine($"sortedByDate {item}"));
 
-        // store.GetItems();
+        Console.WriteLine("==============ASC===============");
+        var sortedByAsc = store.SortByDate(SortOrder.ASC);
+        sortedByAsc.ForEach(item => Console.WriteLine($"sortedByDate {item}"));
+
+
+
+
     }
+
 
 }
 

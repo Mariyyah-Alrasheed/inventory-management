@@ -9,40 +9,35 @@ namespace sda_onsite_2_inventory_management.src
     {
 
         private List<Item> _items = [];
-        // public Store(string inputName, int inputQuantity, DateTime inputDate = default) : base(inputName, inputQuantity, inputDate)
-        // {
-        // }
+        private int _maximumCapacity;
+
+
+        public Store(int maximumCapacity)
+        {
+            _maximumCapacity = maximumCapacity;
+        }
+
         public void AddItem(Item inputItem)
         {
 
             Item? item = _items.Find(item => item.GetName() == inputItem.GetName());
-            if (item is null)
+
+            if (item is null && (GetCurrentVolume() + inputItem.GetQuantity()) < _maximumCapacity)
             {
                 _items.Add(inputItem);
                 Console.WriteLine("ADDED SUCCEFULY");
-
             }
             else
             {
-                Console.WriteLine($"The {inputItem.GetName()} is already exist");
+                Console.WriteLine($"The {inputItem.GetName()} is already exist or the capasity it dose not allwoed");
             }
-            // Any() 
-            // Find() 
-
-            // items.ForEach(item =>{
-            // if (inputName == item.name){
-
-            //     } 
-            // });
         }
 
-        public void GetItems()
+        public List<Item> GetItems()
         {
-            _items.ForEach(item =>
-            {
-                Console.WriteLine(item.ToString());
-            });
+            return _items;
         }
+
 
         public void DeletItem(Item inputItem)
         {
@@ -84,8 +79,41 @@ namespace sda_onsite_2_inventory_management.src
             }
         }
 
+        public int GetCurrentVolume()
+        {
+            int totalAmout = 0;
+            _items.ForEach(item =>
+            {
+                totalAmout += item.GetQuantity();
+            });
 
+            return totalAmout;
+        }
 
+        public List<Item> SortByDate(SortOrder order)
+        {
+            var result = new List<Item>();
+            if (order == SortOrder.DECS)
+            {
+                result = _items.OrderBy(item => item.GetDate()).ToList();
 
+            }
+
+            if (order == SortOrder.ASC)
+            {
+                result = _items.OrderByDescending(item => item.GetDate()).ToList();
+            }
+            return result;
+        }
+
+        public void GroupByDate()
+        {
+            var groub = _items.GroupBy(item => item.GetDate().Date.Month);
+            foreach (var item in groub)
+            {
+                Console.WriteLine(item);
+            }
+
+        }
     }
 }

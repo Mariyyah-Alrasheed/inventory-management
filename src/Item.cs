@@ -12,24 +12,13 @@ namespace sda_onsite_2_inventory_management.src
         private int _quantity;
         private DateTime _date;
 
-        //uint Amount = 0;
         // when creating Item object, the quantity could not be less than 0 
         // Item banana = new Item("banana", -200)
-        public Item(string inputName, int inputQuantity, DateTime? inputDate)
+        public Item(string inputName, int inputQuantity, DateTime? inputDate = null)
         {
             _name = inputName;
             _quantity = inputQuantity < 0 ? throw new ArgumentException("quantity should be bigger than 0") : inputQuantity;
-            // conditional here, inputDate == default => DateTime.Now or else it will equal to InputDate
-            // _date = inputDate == default ? DateTime.Now : inputDate;
-            // if the user dont want to put the date, they simply put default , and the computer will take the DateTime.Now
-            // if (inputDate is null)
-            // {
-            //     _date = DateTime.Now;
-            // }
-            // else
-            // {
-            //     _date = (DateTime)inputDate;
-            // }
+            // countAmount(inputQuantity);
             _date = inputDate is null ? DateTime.Now : (DateTime)inputDate;
 
         }
@@ -42,5 +31,25 @@ namespace sda_onsite_2_inventory_management.src
         {
             return $"name of product : {_name} quantity {_quantity} date {_date}";
         }
+        public DateTime GetDate()
+        {
+            return _date;
+        }
+
+        public int GetQuantity()
+        {
+
+            return _quantity;
+        }
+
+
+
+
+        // public void countAmount(int inputQuantity)
+        // {
+        //     Amount += inputQuantity;
+
+        //     Console.WriteLine(Amount);
+        // }
     }
 }
