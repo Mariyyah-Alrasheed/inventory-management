@@ -11,10 +11,19 @@ namespace sda_onsite_2_inventory_management.src
         private List<Item> _items = [];
         private int _maximumCapacity;
 
+        private string _name;
 
-        public Store(int maximumCapacity)
+
+
+        public Store(string name, int maximumCapacity)
         {
+            _name = name;
             _maximumCapacity = maximumCapacity;
+        }
+
+        public string GetName()
+        {
+            return _name;
         }
 
         public void AddItem(Item inputItem)
@@ -22,7 +31,7 @@ namespace sda_onsite_2_inventory_management.src
 
             Item? item = _items.Find(item => item.GetName() == inputItem.GetName());
 
-            if (item is null && (GetCurrentVolume() + inputItem.GetQuantity()) < _maximumCapacity)
+            if (item is null && (GetCurrentVolume() + inputItem.GetQuantity()) < _maximumCapacity && (inputItem.GetQuantity() > 0))
             {
                 _items.Add(inputItem);
                 Console.WriteLine("ADDED SUCCEFULY");
@@ -39,19 +48,19 @@ namespace sda_onsite_2_inventory_management.src
         }
 
 
-        public void DeletItem(Item inputItem)
+        public void DeleteItem(string inputItemName)
         {
 
-            Item? item = _items.Find(item => item.GetName() == inputItem.GetName());
+            Item? item = _items.Find(item => item.GetName() == inputItemName);
             if (item is null)
             {
-                Console.WriteLine($"The {inputItem.GetName()} it dose not exist");
+                Console.WriteLine($"The {inputItemName} it dose not exist");
             }
             else
             {
-                _items.Remove(inputItem);
+                _items.Remove(item);
 
-                Console.WriteLine($"The {inputItem.GetName()} is DELETED SUCCEFULY!");
+                Console.WriteLine($"The {inputItemName} is DELETED SUCCEFULY!");
             }
 
         }
@@ -93,13 +102,13 @@ namespace sda_onsite_2_inventory_management.src
         public List<Item> SortByDate(SortOrder order)
         {
             var result = new List<Item>();
-            if (order == SortOrder.DECS)
+            if (order == SortOrder.ASC)
             {
                 result = _items.OrderBy(item => item.GetDate()).ToList();
 
             }
 
-            if (order == SortOrder.ASC)
+            if (order == SortOrder.DECS)
             {
                 result = _items.OrderByDescending(item => item.GetDate()).ToList();
             }
@@ -108,12 +117,25 @@ namespace sda_onsite_2_inventory_management.src
 
         public void GroupByDate()
         {
-            var groub = _items.GroupBy(item => item.GetDate().Date.Month);
-            foreach (var item in groub)
+            var CurrentgroupByDate = _items.GroupBy(item =>
             {
-                Console.WriteLine(item);
-            }
+                if ((DateTime.Now - item.GetDate()).TotalDays < 90)
+                {
+                    return "new";
+                }
+                return "old";
+            });
+            Console.WriteLine("========================================");
 
+
+            foreach (var group in CurrentgroupByDate)
+            {
+                Console.WriteLine($"{group.Key} Items:");
+                foreach (var item in group)
+                {
+                    Console.WriteLine($" - {item.GetName()}, Created: {item.GetDate().ToShortDateString()}");
+                }
+            }
         }
     }
 }

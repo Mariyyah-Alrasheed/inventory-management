@@ -18,7 +18,6 @@ namespace sda_onsite_2_inventory_management.src
         {
             _name = inputName;
             _quantity = inputQuantity < 0 ? throw new ArgumentException("quantity should be bigger than 0") : inputQuantity;
-            // countAmount(inputQuantity);
             _date = inputDate is null ? DateTime.Now : (DateTime)inputDate;
 
         }
@@ -26,7 +25,6 @@ namespace sda_onsite_2_inventory_management.src
         {
             return _name;
         }
-        // get quantity and date 
         public override string ToString()
         {
             return $"name of product : {_name} quantity {_quantity} date {_date}";
@@ -38,18 +36,7 @@ namespace sda_onsite_2_inventory_management.src
 
         public int GetQuantity()
         {
-
             return _quantity;
         }
-
-
-
-
-        // public void countAmount(int inputQuantity)
-        // {
-        //     Amount += inputQuantity;
-
-        //     Console.WriteLine(Amount);
-        // }
     }
 }
