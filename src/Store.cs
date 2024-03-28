@@ -31,7 +31,7 @@ namespace sda_onsite_2_inventory_management.src
 
             Item? item = _items.Find(item => item.GetName() == inputItem.GetName());
 
-            if (item is null && (GetCurrentVolume() + inputItem.GetQuantity()) < _maximumCapacity && (inputItem.GetQuantity() > 0))
+            if (item is null && (GetCurrentVolume() + inputItem.Quantity) < _maximumCapacity)
             {
                 _items.Add(inputItem);
                 Console.WriteLine("ADDED SUCCEFULY");
@@ -90,12 +90,8 @@ namespace sda_onsite_2_inventory_management.src
 
         public int GetCurrentVolume()
         {
-            int totalAmout = 0;
-            _items.ForEach(item =>
-            {
-                totalAmout += item.GetQuantity();
-            });
-
+            int totalAmout = _items.Sum(item =>
+            item.Quantity);
             return totalAmout;
         }
 
